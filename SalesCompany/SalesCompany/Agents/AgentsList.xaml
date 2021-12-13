@@ -1,0 +1,77 @@
+﻿<Page x:Class="SalesCompany.Agents.AgentsList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SalesCompany.Agents"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AgentsList">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Поиск"/>
+            <TextBox Width="150" Grid.Column="0" x:Name="SearchField" TextChanged="SearchField_TextChanged" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            
+            <Label Content="Сортировка" Grid.Column="1"/>
+            <ComboBox Width="150" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40 0 0 0">
+                <TextBlock Text="По возрастанию"/>
+                <TextBlock Text="По убыванию"/>
+            </ComboBox>
+            
+            <Label Content="Фильтрация" Grid.Column="2"/>
+            <ComboBox x:Name="TypeAgents" SelectionChanged="TypeAgents_SelectionChanged" DisplayMemberPath="Name" Width="150" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40 0 0 0">
+                
+            </ComboBox>
+        </Grid>
+        <ListView x:Name="AgentsListView" HorizontalContentAlignment="Stretch" Grid.Row="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" Name="gridListViewItem" Height="70" VerticalAlignment="Center">
+                        <Image DockPanel.Dock="Left" Height="70" Width="70" HorizontalAlignment="Left" Name="imgClass" Stretch="UniformToFill" VerticalAlignment="Top" StretchDirection="DownOnly">
+                            <Image.Source>
+                                <Binding Path="Logo">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            /Resources/picture.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+
+                        <TextBlock DockPanel.Dock="Right" Text="{Binding StringFormat=Скидка: {0}%, Path=AgentSale}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                        <StackPanel Margin="20 0 0 0" Orientation="Vertical" Width="auto" HorizontalAlignment="Stretch">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Padding="2,0,0,0" Text="{Binding Name}" Foreground="#FF743E96" Name="AgentType" />
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Padding="2,0,0,0" Text=" | " TextWrapping="Wrap" Foreground="#FF743E96" />
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Padding="2,0,0,0" Text="{Binding NameAgent}" Foreground="#FF743E96" Name="AgentTitle" />
+                            </StackPanel>
+
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Padding="2,1,0,0" Text="{Binding StringFormat=Продаж за год: {0}, Path=SalesCount}" Foreground="#FF743E96"  Name="AgentSalesCount" />
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Padding="2,1,0,0" Text="{Binding Phone}" Foreground="#FF743E96"  Name="AgentPhone" />
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10" Padding="2,1,0,0" Text="{Binding StringFormat=Приоритетность: {0}, Path=Prioritet}" Foreground="#FF743E96" Margin="0" Name="AgentPrioritet" />
+                        </StackPanel>
+                    </DockPanel>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding AgentSale}" Value="10">
+                            <Setter TargetName="gridListViewItem" Property="Background" Value="#FFB4F0B4" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
